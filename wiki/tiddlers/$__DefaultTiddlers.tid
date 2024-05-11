@@ -1,6 +1,6 @@
 created: 20220426153828911
-modified: 20221228055915176
+modified: 20240511102245344
 title: $:/DefaultTiddlers
 type: text/vnd.tiddlywiki
 
-$:/plugins/Modern.TiddlyDev/doc $:/plugins/jairan/jsoneditor
+$:/plugins/jairan/jsoneditor

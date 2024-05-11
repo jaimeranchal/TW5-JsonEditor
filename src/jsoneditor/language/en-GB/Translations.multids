@@ -1,8 +1,8 @@
 title: $:/plugins/jairan/jsoneditor/language/en-GB/
 
-Name: Unnamed Plugin
-Description: Unfilled Description
-Configs/Description: These settings let you customise the behaviour of "Unnamed Plugin" plugin.
+Name: JsonEditor
+Description: Generate HTML form for tiddlers based on a json schema
+Configs/Description: These settings let you customise the behaviour of "JsonEditor" plugin.
 Configs/PluginConfigs/Caption: Plugin Configs
 Configs/XXX/Caption: XXX
 Configs/XXX/Description: XXX is XXX
