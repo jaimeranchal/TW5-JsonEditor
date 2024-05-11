@@ -1,0 +1,9 @@
+title: $:/plugins/jairan/jsoneditor/language/zh-Hans/Readme
+
+\define lingo-base() $:/plugins/jairan/jsoneditor/language/
+
+! <<lingo Name>>
+
+<<lingo Description>>
+
+在这里写自述文档。

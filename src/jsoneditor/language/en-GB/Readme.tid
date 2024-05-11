@@ -1,0 +1,9 @@
+title: $:/plugins/jairan/jsoneditor/language/en-GB/Readme
+
+\define lingo-base() $:/plugins/jairan/jsoneditor/language/
+
+! <<lingo Name>>
+
+<<lingo Description>>
+
+Write readme here.
