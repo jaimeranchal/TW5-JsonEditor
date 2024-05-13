@@ -7,6 +7,10 @@ declare module '@json-editor/json-editor' {
      */
     ajax?: boolean | undefined;
     /**
+     * If 1, inactive buttons are hidden. If 2, inactive buttons are disabled
+     */
+    button_state_mode?: 1 | 2 | undefined;
+    /**
      * If true, remove all "add row" buttons from arrays.
      */
     disable_array_add?: boolean | undefined;
@@ -51,6 +55,11 @@ declare module '@json-editor/json-editor' {
      */
     no_additional_properties?: boolean | undefined;
     /**
+     * Default value of format for objects. If set to 'table', for example, objects will use table layout
+     * if format is not specified
+     */
+    object_layout?: 'normal' | 'grid' | 'table';
+    /**
      * An object containing schema definitions for URLs. Allows you to pre-define external schemas.
      */
     refs?: any;
@@ -82,6 +91,10 @@ declare module '@json-editor/json-editor' {
      * If true default values based on the "type" of the property will be used
      */
     use_default_values?: boolean | undefined;
+    /**
+     * If true control inputs name attributes will be set
+     */
+    use_name_attributes?: boolean | undefined;
   }
   interface JSONEditorError {
     message: string;
