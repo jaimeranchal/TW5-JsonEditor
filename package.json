@@ -49,8 +49,8 @@
   "dependencies": {
     "@json-editor/json-editor": "^2.15.0",
     "esbuild-sass-plugin": "^3.2.0",
-    "spectre.css": "^0.5.9",
     "npm-check-updates": "^16.14.20",
+    "spectre.css": "^0.5.9",
     "tiddlywiki": "^5.3.3",
     "tiddlywiki-plugin-dev": "^0.2.0"
   }
