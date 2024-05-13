@@ -1,10 +1,11 @@
 import { widget as Widget } from '$:/core/modules/widgets/widget.js'; import { IChangedTiddlers } from 'tiddlywiki';
 import * as JSONEditor from '@json-editor/json-editor';
 import 'node_modules/spectre.css/dist/spectre.min.css';
+import 'node_modules/spectre.css/dist/spectre-icons.css';
 import './index.css';
 import { initEditor } from '../utils/initEditor';
 
-// asynchronous function to load JSONEditor module only in browser environment
+import { personSchema } from '../sampledata/schemas'; // only during testing
 
 class JsonEditorWidget extends Widget {
   editor?: JSONEditor.JSONEditor<unknown>;
@@ -42,7 +43,7 @@ class JsonEditorWidget extends Widget {
 
       // Get json-editor attributes
       // Init json-editor
-      this.editor = initEditor({}, editorElement, {})
+      this.editor = initEditor(JSON.parse(personSchema), editorElement, {})
     }
   }
 }
