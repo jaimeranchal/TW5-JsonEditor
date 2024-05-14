@@ -6,6 +6,16 @@ title: $:/plugins/jairan/jsoneditor/language/en-GB/Readme
 
 <<lingo Description>>
 
-Write readme here.
+This widget generates a form to edit values. Available parameters are:
 
-<$RandomNumber/>
+|!Parameter|!Required?|!Description|!Default |
+|''schema''| Yes | JSON schema stored as a string (either tiddler text or field) | `[<currentTiddler>get[schema]]` |
+|''saveMode'' | No | How to store data: as a ''json string'' (`json`) or in ''tiddler fields'' (`tw5`) | `json` |
+|''tiddler'' | No | tiddler title to store form data as json | `currentTiddler` |
+|''field'' | No | tiddler field to store form data as json | `json-data` |
+
+By default, data is stored in a field called `json-data` inside the calling tiddler.
+
+!! Example
+
+<$json-editor />
