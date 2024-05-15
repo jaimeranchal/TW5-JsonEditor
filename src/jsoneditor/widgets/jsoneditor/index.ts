@@ -1,19 +1,12 @@
-import { widget as Widget } from '$:/core/modules/widgets/widget.js'; import { IChangedTiddlers } from 'tiddlywiki';
+import { widget as Widget } from '$:/core/modules/widgets/widget.js'; 
+import { IChangedTiddlers } from 'tiddlywiki';
 import * as JSONEditor from '@json-editor/json-editor';
 import 'node_modules/spectre.css/dist/spectre.min.css';
 import 'node_modules/spectre.css/dist/spectre-icons.css';
 import './index.css';
 import { initEditor } from '../utils/initEditor';
-
+import { ErrorMessage, Validator } from '../utils/validator';
 import { personSchema } from '../sampledata/schemas'; // only during testing
-
-const errorTypes = {
-  'widgetCall': 'Syntax error in widget call'
-}
-const messages = {
-  'schemaErr': 'Schema cannot be empty',
-  'saveModeErr': "SaveMode values can be 'json', 'tw5' or empty" 
-}
 
 class JsonEditorWidget extends Widget {
   /* Attributes */
@@ -27,58 +20,48 @@ class JsonEditorWidget extends Widget {
     outputTiddler: string,
     outputField: string
   }
-  errorMessages?: { error: string, message: string}[];
+  validator: Validator = new Validator();
 
 
   /* Methods */
   //---------------------------------------------------------------------------
   private setAttributes(): void {
-    let schema = this.getAttribute('schema');
     let saveMode = this.getAttribute('saveMode') ?? 'json';
     let tiddler = this.getAttribute('tiddler');
     let field = this.getAttribute('field');
-    let errors: typeof this.errorMessages = []
 
     // check for errors
-    if (schema === undefined) {
-      errors.push({ 
-        'error': errorTypes.widgetCall, 
-        'message': messages.schemaErr 
-      });
+    if (this.validator.checkSchema(this.getAttribute('schema'))) {
+      this.schema = this.getAttribute('schema');
     }
 
-    switch (saveMode) {
-      case 'json':
-        let options = { 
-          mode: saveMode,
-          outputTiddler: tiddler ?? this.getVariable('currentTiddler'),
-          outputField: field ?? 'json-data'
-        }
-        this.saveOptions = options;
-        break;
-      case 'tw5':
-        break;
-      default:
-        errors.push({ 
-          'error': errorTypes.widgetCall, 
-          'message': messages.saveModeErr 
-        });
-        break;
+    if (this.validator.checkMode(this.getAttribute('saveMode'))) {
+      let mode = this.getAttribute('saveMode') ?? 'json';
+      // this.saveOptions = {
+      //   mode: this.getAttribute('saveMode') ?? 'json',
+      //   outputTiddler: 
+      // }
     }
+    // switch (saveMode) {
+    //   case 'json':
+    //     let options = { 
+    //       mode: saveMode,
+    //       outputTiddler: tiddler ?? this.getVariable('currentTiddler'),
+    //       outputField: field ?? 'json-data'
+    //     }
+    //     this.saveOptions = options;
+    //     break;
+    //   case 'tw5':
+    //     break;
+    //   default:
+    //     errors.push({ 
+    //       'error': Validator.errorTypes.widgetCall, 
+    //       'message': Validator.messages.saveModeErr 
+    //     });
+    //     break;
+    // }
 
-    if (errors.length > 0) this.errorMessages = errors;
-  }
-  private printErrors(container: Element): void {
-    let errorContainer = document.createElement('div');
-    this.errorMessages?.forEach(error => {
-      let errorSpan = document.createElement('span');
-      errorSpan.className = 'label label-warning';
-      errorSpan.textContent = `${error.error}: ${error.message}`;
-      errorContainer.appendChild(errorSpan);
-    });
-
-    container.appendChild(errorContainer);
-    this.domNodes.push(container);
+    // if (errors.length > 0) this.errors = errors;
   }
 
   public refresh(_changedTiddlers: IChangedTiddlers): boolean {
@@ -104,10 +87,7 @@ class JsonEditorWidget extends Widget {
     this.execute();
     this.setAttributes();
 
-    if (this.errorMessages !== undefined) {
-      this.printErrors(parent);
-      return
-    }
+    this.validator.printMessages(parent, this.domNodes);
 
     if (this.editor === undefined) {
       // create container elements
