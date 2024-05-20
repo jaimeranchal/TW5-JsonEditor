@@ -17,8 +17,8 @@ class JsonEditorWidget extends Widget {
   schema?: string;      // JSON schema as string
   saveOptions?: { 
     mode: string,
-    outputTiddler: string,
-    outputField: string
+    outputTiddler: string | undefined,
+    outputField: string | undefined
   }
   validator: Validator = new Validator();
 
@@ -27,8 +27,6 @@ class JsonEditorWidget extends Widget {
   //---------------------------------------------------------------------------
   private setAttributes(): void {
     let saveMode = this.getAttribute('saveMode') ?? 'json';
-    let tiddler = this.getAttribute('tiddler');
-    let field = this.getAttribute('field');
 
     // check for errors
     if (this.validator.checkSchema(this.getAttribute('schema'))) {
@@ -37,31 +35,22 @@ class JsonEditorWidget extends Widget {
 
     if (this.validator.checkMode(this.getAttribute('saveMode'))) {
       let mode = this.getAttribute('saveMode') ?? 'json';
-      // this.saveOptions = {
-      //   mode: this.getAttribute('saveMode') ?? 'json',
-      //   outputTiddler: 
-      // }
+      this.saveOptions = { mode: mode, outputTiddler: "", outputField: "" }; 
     }
-    // switch (saveMode) {
-    //   case 'json':
-    //     let options = { 
-    //       mode: saveMode,
-    //       outputTiddler: tiddler ?? this.getVariable('currentTiddler'),
-    //       outputField: field ?? 'json-data'
-    //     }
-    //     this.saveOptions = options;
-    //     break;
-    //   case 'tw5':
-    //     break;
-    //   default:
-    //     errors.push({ 
-    //       'error': Validator.errorTypes.widgetCall, 
-    //       'message': Validator.messages.saveModeErr 
-    //     });
-    //     break;
-    // }
-
-    // if (errors.length > 0) this.errors = errors;
+    
+    switch (this.saveOptions?.mode) {
+      case 'json':
+        let tiddler = this.getAttribute('tiddler');
+        let field = this.getAttribute('field');
+        this.saveOptions.outputTiddler = this.validator.checkTiddler(tiddler) === true ?
+                                         tiddler :
+                                         this.getVariable('currentTiddler');
+        break;
+      case 'tw5':
+        break;
+      default:
+        break;
+    }
   }
 
   public refresh(_changedTiddlers: IChangedTiddlers): boolean {

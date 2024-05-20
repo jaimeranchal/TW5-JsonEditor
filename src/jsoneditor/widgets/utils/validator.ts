@@ -12,7 +12,8 @@ const areas: Record<string,string> = {
 
 const texts: Record<string,string> = {
   'schema001': 'Schema cannot be empty',
-  'mode001': "SaveMode values can be 'json', 'tw5' or empty" 
+  'mode001': "SaveMode values can be 'json', 'tw5' or empty", 
+  'tidd001': "Tiddler title does not exists in wiki"
 };
 
 export class Validator {
@@ -45,7 +46,10 @@ export class Validator {
     if (title === undefined) {
     }
     /* Check if tiddler exists */
-    $tw.wiki.getTiddler(title)
+    if ($tw.wiki.getTiddler(title) === undefined) {
+      this.addMessage('error', 'widgetCall', 'tidd001');
+      return false;
+    }
     return true;
   }
 
